@@ -1,0 +1,9 @@
+.git
+.github
+.idea
+.vscode
+bin
+coverage.out
+*.log
+docs
+testdata/expected.json

@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "description": "Data-driven banner signatures. Rules are evaluated top-to-bottom and FIRST MATCH WINS. Named product, version and os_hint capture groups override static fields. Ports are optional hints, not the primary protocol signal.",
+  "rules": [
+    {
+      "id": "ssh-openssh-ubuntu",
+      "protocol": "SSH",
+      "product": "OpenSSH",
+      "os_hint": "Ubuntu",
+      "pattern": "(?i)^SSH-[0-9]+\\.[0-9]+-OpenSSH_(?P<version>[0-9][0-9A-Za-z._+~-]*)(?:[ \\t]+Ubuntu(?:-[^\\r\\n \\t]+)?)",
+      "confidence": 0.95
+    },
+    {
+      "id": "ssh-openssh-debian",
+      "protocol": "SSH",
+      "product": "OpenSSH",
+      "os_hint": "Debian",
+      "pattern": "(?i)^SSH-[0-9]+\\.[0-9]+-OpenSSH_(?P<version>[0-9][0-9A-Za-z._+~-]*)(?:[ \\t]+Debian(?:-[^\\r\\n \\t]+)?)",
+      "confidence": 0.95
+    },
+    {
+      "id": "ssh-openssh",
+      "protocol": "SSH",
+      "product": "OpenSSH",
+      "pattern": "(?i)^SSH-[0-9]+\\.[0-9]+-OpenSSH_(?P<version>[0-9][0-9A-Za-z._+~-]*)",
+      "confidence": 0.95
+    },
+    {
+      "id": "ssh-dropbear",
+      "protocol": "SSH",
+      "product": "Dropbear",
+      "pattern": "(?i)^SSH-[0-9]+\\.[0-9]+-dropbear(?:_|-)(?P<version>[0-9][0-9A-Za-z._+~-]*)",
+      "confidence": 0.9
+    },
+    {
+      "id": "ssh-libssh",
+      "protocol": "SSH",
+      "product": "libssh",
+      "pattern": "(?i)^SSH-[0-9]+\\.[0-9]+-libssh(?:_|-)(?P<version>[0-9][0-9A-Za-z._+~-]*)",
+      "confidence": 0.9
+    },
+    {
+      "id": "ssh-generic",
+      "protocol": "SSH",
+      "product": "",
+      "pattern": "(?i)^SSH-[0-9]+\\.[0-9]+-",
+      "confidence": 0.6
+    },
+    {
+      "id": "mysql-handshake",
+      "protocol": "MySQL",
+      "product": "MySQL",
+      "pattern": "(?s)^(?:.{3}\\x00)?\\x0a(?P<version>[0-9][0-9A-Za-z._+~-]{0,127})\\x00",
+      "confidence": 0.9
+    },
+    {
+      "id": "http-nginx",
+      "protocol": "HTTP",
+      "product": "nginx",
+      "pattern": "(?im)^Server[ \\t]*:[ \\t]*nginx(?:/(?P<version>[0-9][0-9A-Za-z._+~-]*))?(?:[ \\t]+\\((?P<os_hint>Ubuntu|Debian|CentOS|RHEL|Red[ \\t]+Hat|FreeBSD|Unix|Windows)\\))?",
+      "confidence": 0.9
+    },
+    {
+      "id": "http-apache",
+      "protocol": "HTTP",
+      "product": "Apache",
+      "pattern": "(?im)^Server[ \\t]*:[ \\t]*Apache(?:/(?P<version>[0-9][0-9A-Za-z._+~-]*))?(?:[ \\t]+\\((?P<os_hint>Ubuntu|Debian|CentOS|RHEL|Red[ \\t]+Hat|FreeBSD|Unix|Windows)\\))?",
+      "confidence": 0.9
+    },
+    {
+      "id": "http-jetty",
+      "protocol": "HTTP",
+      "product": "Jetty",
+      "pattern": "(?im)^Server[ \\t]*:[ \\t]*Jetty(?:(?:/|\\()(?P<version>[0-9][0-9A-Za-z._+~-]*)\\)?)?",
+      "confidence": 0.85
+    },
+    {
+      "id": "http-iis",
+      "protocol": "HTTP",
+      "product": "Microsoft-IIS",
+      "pattern": "(?im)^Server[ \\t]*:[ \\t]*Microsoft-IIS(?:/(?P<version>[0-9][0-9A-Za-z._+~-]*))?",
+      "confidence": 0.9
+    },
+    {
+      "id": "redis-info",
+      "protocol": "Redis",
+      "product": "Redis",
+      "pattern": "(?im)^redis_version[ \\t]*:[ \\t]*(?P<version>[0-9][0-9A-Za-z._+~-]*)[ \\t]*\\r?$",
+      "confidence": 0.9
+    },
+    {
+      "id": "redis-resp-response",
+      "protocol": "Redis",
+      "product": "Redis",
+      "pattern": "(?m)^(?:\\+PONG\\r?$|\\+OK\\r?$|-(?:ERR|NOAUTH|WRONGPASS|LOADING|BUSY|MASTERDOWN|READONLY)(?:[ \\t\\r]|$))",
+      "confidence": 0.7
+    },
+    {
+      "id": "ftp-proftpd",
+      "protocol": "FTP",
+      "product": "ProFTPD",
+      "pattern": "(?i)^220[^\\r\\n]*?ProFTPD(?:[ /-]+(?P<version>[0-9][0-9A-Za-z._+~-]*))?",
+      "confidence": 0.9
+    },
+    {
+      "id": "ftp-vsftpd",
+      "protocol": "FTP",
+      "product": "vsFTPd",
+      "pattern": "(?i)^220[^\\r\\n]*?vsFTPd(?:[ /-]+(?P<version>[0-9][0-9A-Za-z._+~-]*))?",
+      "confidence": 0.9
+    },
+    {
+      "id": "ftp-pure-ftpd",
+      "protocol": "FTP",
+      "product": "Pure-FTPd",
+      "pattern": "(?i)^220[^\\r\\n]*?Pure-FTPd(?:[ /-]+(?P<version>[0-9][0-9A-Za-z._+~-]*))?",
+      "confidence": 0.8
+    },
+    {
+      "id": "ftp-filezilla",
+      "protocol": "FTP",
+      "product": "FileZilla",
+      "pattern": "(?i)^220[^\\r\\n]*?FileZilla(?:[ /-]+Server(?:[ /-]+(?P<version>[0-9][0-9A-Za-z._+~-]*))?)?",
+      "confidence": 0.8
+    },
+    {
+      "id": "smtp-generic",
+      "protocol": "SMTP",
+      "product": "",
+      "pattern": "(?i)^220[- ][^\\r\\n]*(?:e?smtp)",
+      "confidence": 0.7
+    },
+    {
+      "id": "ftp-generic-known-port",
+      "protocol": "FTP",
+      "product": "",
+      "pattern": "^220[ -]",
+      "ports": [21, 990, 2121],
+      "confidence": 0.6
+    },
+    {
+      "id": "http-server-header",
+      "protocol": "HTTP",
+      "product": "",
+      "pattern": "(?im)^Server[ \\t]*:[ \\t]*(?P<product>[A-Za-z][A-Za-z0-9_.+-]*)(?:/(?P<version>[0-9][0-9A-Za-z._+~-]*))?(?:[ \\t]+\\((?P<os_hint>Ubuntu|Debian|CentOS|RHEL|Red[ \\t]+Hat|FreeBSD|Unix|Windows)\\))?",
+      "confidence": 0.75
+    },
+    {
+      "id": "http-status-line",
+      "protocol": "HTTP",
+      "product": "",
+      "pattern": "(?im)^HTTP/[0-9]+(?:\\.[0-9]+)?[ \\t]+[0-9]{3}\\b",
+      "confidence": 0.5
+    },
+    {
+      "id": "tls-record",
+      "protocol": "TLS",
+      "product": "",
+      "pattern": "^\\x16\\x03[\\x00-\\x04]",
+      "confidence": 0.6
+    }
+  ]
+}
